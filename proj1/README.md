@@ -26,6 +26,7 @@ The classic Computer Science problem featuring philosophers sitting at a table w
 + The max number of philosophers who can pick up a chopstick is limited to PHILOSOPHER\_NUM - 1 (e.g. If there are 5 philosophers, only 4 can hold a chopstick at once).
 
 **Note**: This program utilises CN data types such as cn\_uint (unsigned int) and cn\_bool (C++ bool) which are included in "lib/handy/types.h".
+
 **Note**: There are two .c files. "philosophers.c" is the assignment, and the makefile will target this one to compile. "philosophers\_orig.c" is an alternative version which features command line arguments where you can specify the number of philosophers, speed of eating/thinking, etc.
 
 ###Synopsis
