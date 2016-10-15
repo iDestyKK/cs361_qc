@@ -1,6 +1,6 @@
 #Programming Assignment 1
 
-Programming Assignment 1 consists of three parts. As of this README's last modified date, only the first part is completed.
+Programming Assignment 1 consists of three parts. Sudoku Puzzle Validator, Dining Philosophers, and a text converter/parser.
 These assignments are to practise the behaviours of programming with pthreads in C.
 
 ##Part 1 - Sudoku Validator
@@ -11,6 +11,12 @@ This program utilises the CN\_Grids Data Structure Library (written by Clara) to
 ###Synopsis
 ./validator file
 
+###Example
+**Command** ./validator 1\_sudoku\_validator/puzzle1.su
+```
+1
+```
+
 ##Part 2 - Dining Philosophers
 The classic Computer Science problem featuring philosophers sitting at a table with an unlimited supply of noodles (or spaghetti?). The twist in the problem comes with the number of chopsticks being equal to the number of philosophers at the table (e.g. 5 philosophers means 5 chopsticks are present). Aside from the lack of washing these chopsticks between use, a philosopher can only eat when they have two chopsticks. The goal of this problem is to demonstrate avoiding deadlocks. For instance, if all of the philosophers tried picking up their right chopstick, they would never be able to pick up their left one, resulting in a deadlock. This program solves the problem by adding the following rules/conditions to it:
 
@@ -19,24 +25,25 @@ The classic Computer Science problem featuring philosophers sitting at a table w
 + If the philosopher's ID is an even number, it picks its right chopstick up first, then its left. Otherwise, flip the order.
 + The max number of philosophers who can pick up a chopstick is limited to PHILOSOPHER\_NUM - 1 (e.g. If there are 5 philosophers, only 4 can hold a chopstick at once).
 
-This program utilises CN data types such as cn\_uint (unsigned int) and cn\_bool (C++ bool) which are included in "lib/handy/types.h".
+**Note**: This program utilises CN data types such as cn\_uint (unsigned int) and cn\_bool (C++ bool) which are included in "lib/handy/types.h".
+**Note**: There are two .c files. "philosophers.c" is the assignment, and the makefile will target this one to compile. "philosophers\_orig.c" is an alternative version which features command line arguments where you can specify the number of philosophers, speed of eating/thinking, etc.
 
 ###Synopsis
-./philosophers philosopher\_num eat\_rate think\_rate
+./philosophers
 
 ###Example
-**Command**: ./philosophers 5 10.2 10.2
+**Command**: ./philosophers
 ```
-Philosopher A has joined.
-Philosopher A wants to eat.
-Philosopher A is eating.
-Philosopher B has joined.
-Philosopher B is thinking.
-Philosopher D has joined.
-Philosopher D is thinking.
-Philosopher C has joined.
-Philosopher C wants to eat.
-Philosopher C is eating.
+Philosopher 0 has joined.
+Philosopher 0 wants to eat.
+Philosopher 0 is eating for 2.04996 seconds.
+Philosopher 1 has joined.
+Philosopher 1 is thinking for 2.03838 seconds.
+Philosopher 3 has joined.
+Philosopher 3 is thinking for 2.47537 seconds.
+Philosopher 2 has joined.
+Philosopher 2 wants to eat.
+Philosopher 2 is eating for 2.46172 seconds.
 ...
 ```
 
