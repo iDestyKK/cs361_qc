@@ -12,11 +12,11 @@ This program utilises the CN\_Grids Data Structure Library (written by Clara) to
 ./validator file
 
 ##Part 2 - Dining Philosophers
-The classic Computer Science problem featuring philosophers sitting at a table with an unlimited supply of noodles (or spaghetti?). The twist in the problem comes with the number of chopsticks being equal to the number of philosophers at the table (e.g. 5 philosophers means 5 chopsticks are present). Aside from the lack of washing these chopsticks between use, a philosopher can only eat when they have two chopsticks. The goal of this problem is to demonstrate avoiding deadl cks. For instance, if all of the philosophers tried picking up their right chopstick, they would never be able to pick up their left one, resulting in a deadlock. This program solves the problem by adding the following rules/conditions to it:
-* Each philosopher has a thread of its own. All of these threads share access to a "manager" struct and can only modify its data if it locks a mutex.
-* When a philosopher picks up one chopstick, it will not stop trying to access the other until it is freed. Starvation is prevented because the philosopher is guaranteed to let go of the chopsticks after a certain period of time.
-* If the philosopher's ID is an even number, it picks its right chopstick up first, then its left. Otherwise, flip the order.
-* The max number of philosophers who can pick up a chopstick is limited to PHILOSOPHER\_NUM - 1 (e.g. If there are 5 philosophers, only 4 can hold a chopstick at once).
+The classic Computer Science problem featuring philosophers sitting at a table with an unlimited supply of noodles (or spaghetti?). The twist in the problem comes with the number of chopsticks being equal to the number of philosophers at the table (e.g. 5 philosophers means 5 chopsticks are present). Aside from the lack of washing these chopsticks between use, a philosopher can only eat when they have two chopsticks. The goal of this problem is to demonstrate avoiding deadlocks. For instance, if all of the philosophers tried picking up their right chopstick, they would never be able to pick up their left one, resulting in a deadlock. This program solves the problem by adding the following rules/conditions to it:
++ Each philosopher has a thread of its own. All of these threads share access to a "manager" struct and can only modify its data if it locks a mutex.
++ When a philosopher picks up one chopstick, it will not stop trying to access the other until it is freed. Starvation is prevented because the philosopher is guaranteed to let go of the chopsticks after a certain period of time.
++ If the philosopher's ID is an even number, it picks its right chopstick up first, then its left. Otherwise, flip the order.
++ The max number of philosophers who can pick up a chopstick is limited to PHILOSOPHER\_NUM - 1 (e.g. If there are 5 philosophers, only 4 can hold a chopstick at once).
 
 This program utilises CN data types such as cn\_uint (unsigned int) and cn\_bool (C++ bool) which are included in "lib/handy/types.h".
 
