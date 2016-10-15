@@ -1,0 +1,36 @@
+Philosopher A has joined.
+Philosopher A wants to eat.
+Philosopher A is eating.
+Philosopher B has joined.
+Philosopher B is thinking.
+Philosopher D has joined.
+Philosopher D is thinking.
+Philosopher C has joined.
+Philosopher C wants to eat.
+Philosopher C is eating.
+Philosopher E has joined.
+Philosopher E wants to eat.
+Philosopher A is thinking.
+Philosopher E is eating.
+Philosopher D wants to eat.
+Philosopher C is thinking.
+Philosopher E is thinking.
+Philosopher D is eating.
+Philosopher B wants to eat.
+Philosopher B is eating.
+Philosopher D is thinking.
+Philosopher A wants to eat.
+Philosopher B is thinking.
+Philosopher A is eating.
+Philosopher E wants to eat.
+Philosopher A is thinking.
+Philosopher E is eating.
+Philosopher C wants to eat.
+Philosopher C is eating.
+Philosopher E is thinking.
+Philosopher B wants to eat.
+Philosopher C is thinking.
+Philosopher B is eating.
+Philosopher D wants to eat.
+Philosopher D is eating.
+Philosopher A wants to eat.
