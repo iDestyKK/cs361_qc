@@ -47,12 +47,12 @@ typedef struct fcfs_process {
 	    cpu_burst,
 	    priority,
 
-		//RR Conditions
-		sort_id,
+	    //RR Conditions
+	    sort_id,
 
-		//Timing
-		execute_time,
-		wait_time,
+	    //Timing
+	    execute_time,
+	    wait_time,
 	    turnaround_time;
 } FCFS_PROCESS;
 
