@@ -94,17 +94,27 @@ main(int argc, char** argv) {
 	}
 	
 	double avg_wait       = 0,
-	       avg_turnaround = 0;
+	       avg_turnaround = 0,
+	       total_time     = 0;
 	for (i = 0; i < cn_vec_size(jobs); i++) {
 		process = (FCFS_PROCESS *) cn_vec_at(jobs, i);
-		avg_wait       += process->arrival_time;
+		avg_wait       += process->wait_time;
 		avg_turnaround += process->turnaround_time;
+		total_time     += process->cpu_burst;
+		/*printf("Job #%d\n    Arrival: %d\n    CPU Boost: %d\n    Priority: %d\n    Wait Time: %d\n",
+		       process->job_id,
+		       process->arrival_time,
+		       process->cpu_burst,
+		       process->priority,
+		       process->wait_time
+		);*/
 	}
 	avg_wait       /= cn_vec_size(jobs);
 	avg_turnaround /= cn_vec_size(jobs);
 
-	printf("Average Wait Time      : %lgs\n", avg_wait);
-	printf("Average Turnaround Time: %lgs\n", avg_turnaround);
+	printf("Average Wait Time      : %lg s\n"    , avg_wait);
+	printf("Throughput (p/min)     : %lg p/min\n", 60 / (total_time / cn_vec_size(jobs)));
+	printf("Average Turnaround Time: %lg s\n"    , avg_turnaround);
 
 	//Free Memory
 	cn_vec_free(jobs);
