@@ -96,9 +96,9 @@ main(int argc, char** argv) {
 	
 	cn_uint time             = 0,                 //Timer Variable
 	        quantum_shift    = 0,                 //Position in a time quantum
-			num_proc         = 0,                 //Number of processes executed
-			total_wait       = 0,                 //Total time of all processes spent waiting
-			total_turnaround = 0,                 //Total time of all processes turnaround
+	        num_proc         = 0,                 //Number of processes executed
+	        total_wait       = 0,                 //Total time of all processes spent waiting
+	        total_turnaround = 0,                 //Total time of all processes turnaround
 	        div_factor       = cn_vec_size(jobs); //To divide total wait and turnaround times
 
 	cn_bool already_pop   = CN_FALSE;
@@ -132,7 +132,7 @@ main(int argc, char** argv) {
 		if (!cn_list_empty(process_queue)) {
 			//Get the top element.
 			FCFS_PROCESS* cur_proc = cn_list_begin(process_queue)->data,
-						* new_proc;
+			            * new_proc;
 
 			printf("[%d] Process Job \"%d\" (%d remaining)\n", time, cur_proc->job_id, cur_proc->cpu_burst - 1);
 			cur_proc->cpu_burst--;
