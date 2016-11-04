@@ -126,7 +126,7 @@ main(int argc, char** argv) {
 
 	if (argc < 2) {
 		//Clearly you have no idea what you are doing...
-		fprintf(stderr, "Usage: sjf job_file [-i IMG_PATH] [-l] [-n] [-d]\n");
+		fprintf(stderr, "Usage: sjf job_file [-i IMG_PATH] [-x] [-s] [-n] [-d]\n");
 		return -1;
 	}
 	if (!file_exists(argv[1])) {

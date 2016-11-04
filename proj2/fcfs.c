@@ -99,7 +99,7 @@ main(int argc, char** argv) {
 
 	if (argc < 2) {
 		//Clearly you have no idea what you are doing...
-		fprintf(stderr, "Usage: fcfs job_file [-i IMG_PATH] [-l] [-n] [-d]\n");
+		fprintf(stderr, "Usage: fcfs job_file [-i IMG_PATH] [-s] [-n] [-d]\n");
 		return -1;
 	}
 	if (!file_exists(argv[1])) {
