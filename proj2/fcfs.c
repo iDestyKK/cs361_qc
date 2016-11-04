@@ -231,7 +231,7 @@ main(int argc, char** argv) {
 					printf("[%d] Process Job \"%d\" (%d remaining)\n", time, cur_proc->job_id, cur_proc->cpu_burst - 1);
 				cur_proc->cpu_burst--;
 
-				//Make snapshot and set it equal to the number of original proocesses count
+				//Make snapshot and set it equal to the number of original processes count
 				SNAPSHOT snap;
 				snap.status = (cn_byte *) malloc(sizeof(cn_byte) * pn);
 				memset(snap.status, 0x00, sizeof(cn_byte) * pn);
