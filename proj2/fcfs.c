@@ -283,7 +283,8 @@ main(int argc, char** argv) {
 			cn_uint _a, _b;
 			for (_b = 0; _b < cn_vec_size(snapshots); _b++) {
 				char* time = itos(_b);
-				font_write_on_ppm_centered(28 + (_b * 24), 14, &font, img, time);
+				font_write_on_ppm_centered(16 + (_b * 24), 14, &font, img, time);
+				draw_rectangle_colour(img, 16 + (_b * 24), 22, 17 + (_b * 24), 25 + (div_factor * 8), &wait_c);
 				free(time);
 				SNAPSHOT* snap = cn_vec_at(snapshots, _b);
 				for (_a = 0; _a < div_factor; _a++) {

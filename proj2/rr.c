@@ -6,49 +6,49 @@
  *     Utilising CN_Queues and File Streams, this program will read in from a
  *     file and gather data about processes. It will then take that
  *     information and calculate execute times, wait times, etc.
- * 
+ *
  * Algorithm:
  *     The program will add all tasks to a vector, and then add them in a queue
  *     when the start time is reached. At each step, the resource at the top
  *     of the queue is read, and has its time subtracted. Then, if it is not 0,
  *     it will push it to the back of the queue.
- *     
+ *
  *     To generate the graph PPM, we utilise PPM_Edit... another library
  *     written by me to allow importing and editing of PPM files. As the
  *     program progresses, it will take literal "snapshots" of memory to
  *     keep track of whether or not a process is waiting or actually running.
  *     This needs to be done since CN_Lists and CN_Vecs free their own memory
  *     when popping or freeing themselves.
- * 
+ *
  * Command Line Options:
  *     This program is multi-purpose. It can show a simulation, print out
  *     statistics, and even a PPM graph showing how the processes would be
  *     laid out in a real Round Robin Scheduling System. Here are the options:
- *     
+ *
  *     -i FILE_PATH
  *          Writes a binary PPM (P6) file to "FILE_PATH" of the simulation
- *     
+ *
  *     -q QUANTUM
  *          Specifies the time quantum
  *
  *     -l
  *          Prints out the simulation for every second.
- *     
+ *
  *     -n
  *          Prevents printing out statistics. (By default, they are printed)
- *     
+ *
  *     -d
  *          Enables Debug Mode
- *     
+ *
  *     Execution: ./rr [JOB_FILE] [-g FILE_PATH] [l] [n]
  *     The "JOB_FILE" must be the first argument specified.
- * 
+ *
  * Compilation:
  *     This program was written under the C GNU89 standard. As such, it should
  *     be compiled under the following command:
  *
  *     gcc --std=gnu89 -o fcfs fcfs.c lib/cn_vec/cn_vec.c .......
- * 
+ *
  * Author:
  *     Clara Van Nguyen
  */
@@ -165,7 +165,7 @@ main(int argc, char** argv) {
 	CN_VEC jobs = cn_vec_init(RR_PROCESS);
 	FILE* fp = fopen(argv[1], "r");
 	CN_FSTREAM fs = cn_fstream_init(fp);
-	
+
 	//Use the stream to read in until the end of the file
 	cn_fstream_next(fs);
 	while (cn_fstream_get(fs) != NULL) {
@@ -197,10 +197,10 @@ main(int argc, char** argv) {
 		RR_PROCESS* proc = cn_vec_at(jobs, nc);
 		job_names[nc] = itos(proc->job_id);
 	}
-		
+
 	//Make a queue to store the processes.
 	CN_LIST process_queue = cn_list_init(RR_PROCESS);
-	
+
 	cn_uint time             = 0,                 //Timer Variable
 	        quantum_shift    = 0,                 //Position in a time quantum
 	        num_proc         = 0,                 //Number of processes executed
@@ -236,7 +236,7 @@ main(int argc, char** argv) {
 		//Kill the loop if the queue and vector is empty.
 		if (cn_list_empty(process_queue) && cn_vec_empty(jobs))
 			break;
-		
+
 		if (!cn_list_empty(process_queue)) {
 			//Get the top element.
 			RR_PROCESS* cur_proc = cn_list_begin(process_queue)->data,
@@ -244,7 +244,7 @@ main(int argc, char** argv) {
 			if (simulate == CN_TRUE)
 				printf("[%d] Process Job \"%d\" (%d remaining)\n", time, cur_proc->job_id, cur_proc->cpu_burst - 1);
 			cur_proc->cpu_burst--;
-			
+
 			//Make snapshot and set it equal to number of original process count
 			SNAPSHOT snap;
 			snap.status = (cn_byte *) malloc(sizeof(cn_byte) * div_factor);
@@ -266,7 +266,7 @@ main(int argc, char** argv) {
 				iterate_process->turnaround_time++;
 			}
 			cn_vec_push_back(snapshots, &snap); //Add the snapshot to the vector
-			
+
 			//Add a process if it arrives at the next time.
 			RR_PROCESS* process;
 			cn_uint i    = 0,
@@ -310,7 +310,7 @@ main(int argc, char** argv) {
 					if (simulate == CN_TRUE)
 						printf("[%d] Process \"%d\" is done\n", time, cur_proc->job_id);
 				}
-		
+
 				cn_list_pop_front(process_queue);
 				quantum_shift = 0;
 			}
@@ -328,22 +328,23 @@ main(int argc, char** argv) {
 		FONT_SET font;
 		font_set_load_font(&font, "data/font.bin");
 		whiteout(img);
-		
+
 		//Draw title bar and bar
 		font_write_on_ppm_centered((int)((double)img->width * 0.5), 2, &font, img, argv[1]);
 		draw_rectangle_colour(img, 2, 10, img->width - 2, 11, &black_c);
-		
+
 		//Draw all process id's
 		cn_uint prog = 0;
 		for (; prog < div_factor; prog++) {
 			font_write_on_ppm(4, 24 + (prog * 8), &font, img, job_names[prog]);
 		}
-		
+
 		//Draw all bars and times
 		cn_uint _a, _b;
 		for (_b = 0; _b < cn_vec_size(snapshots); _b++) {
 			char* time = itos(_b);
-			font_write_on_ppm_centered(28 + (_b * 24), 14, &font, img, time);
+			font_write_on_ppm_centered(16 + (_b * 24), 14, &font, img, time);
+			draw_rectangle_colour(img, 16 + (_b * 24), 22, 17 + (_b * 24), 25 + (div_factor * 8), &wait_c);
 			free(time);
 			SNAPSHOT* snap = cn_vec_at(snapshots, _b);
 			for (_a = 0; _a < div_factor; _a++) {
@@ -358,7 +359,7 @@ main(int argc, char** argv) {
 						break;
 					case 1:
 						//Waiting
-						draw_rectangle_colour(img, x1, y1, x2, y2, &wait_c); 
+						draw_rectangle_colour(img, x1, y1, x2, y2, &wait_c);
 						break;
 					case 2:
 						//Running
