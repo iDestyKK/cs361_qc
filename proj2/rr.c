@@ -118,7 +118,7 @@ main(int argc, char** argv) {
 
 	if (argc < 2) {
 		//Clearly you have no idea what you are doing...
-		fprintf(stderr, "Usage: rr job_file [-q QUANTUM] [-i IMG_PATH] [-l] [-n] [-d]\n");
+		fprintf(stderr, "Usage: rr job_file [-q QUANTUM] [-i IMG_PATH] [-s] [-n] [-d]\n");
 		return -1;
 	}
 	if (!file_exists(argv[1])) {
@@ -147,6 +147,10 @@ main(int argc, char** argv) {
 						return -3;
 					}
 					QUANTUM = atoi(argv[++arg_index]);
+					if (QUANTUM < 1 || argv[arg_index][0] == '-') {
+						fprintf(stderr, "[ \e[1;31;mERROR\e[0m ] Quantum must be 1 or more.\n");
+						return -4;
+					}
 					break;
 				case 's':
 					simulate = CN_TRUE;
