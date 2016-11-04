@@ -289,9 +289,9 @@ main(int argc, char** argv) {
 				for (_a = 0; _a < div_factor; _a++) {
 					//printf("%d ", snap->status[_a]);
 					cn_uint x1 = 16 + (_b * 24),
-							y1 = 26 + (_a * 8),
+							y1 = 25 + (_a * 8),
 							x2 = x1 + 24,
-							y2 = y1 + 4;
+							y2 = y1 + 3;
 					switch (snap->status[_a]) {
 						case 0:
 							//Blank

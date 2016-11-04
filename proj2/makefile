@@ -3,7 +3,7 @@
 CC = gcc
 CFLAGS = --std=gnu89 -g
 
-all: fcfs rr
+all: fcfs rr sjf
 
 # Perform Awesomeness...
 fcfs:
@@ -12,5 +12,8 @@ fcfs:
 rr:
 	$(CC) $(CFLAGS) -o rr rr.c lib/handy/cnds/cn_vec.c lib/handy/file.c lib/handy/stream.c lib/handy/cnds/cn_queue.c lib/handy/cnds/cn_list.c img_helper.c lib/PPM_Edit/ppm_edit.c
 
+sjf:
+	$(CC) $(CFLAGS) -o sjf sjf.c lib/handy/cnds/cn_vec.c lib/handy/file.c lib/handy/stream.c lib/handy/cnds/cn_queue.c lib/handy/cnds/cn_list.c img_helper.c lib/PPM_Edit/ppm_edit.c
+
 clean:
-	rm fcfs rr
+	rm fcfs rr sjf
