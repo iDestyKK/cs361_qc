@@ -16,7 +16,7 @@
  *     -i FILE_PATH
  *          Writes a binary PPM (P6) file to "FILE_PATH" of the simulation
  *
- *     -l
+ *     -s
  *          Prints out the simulation for every second
  *
  *     -n
@@ -24,6 +24,9 @@
  *
  *     -d
  *          Enables Debug Mode
+ *     
+ *     -x
+ *          Forces non-preemptive process execution
  *
  * Compilation:
  *     This program was written under the C GNU89 standard. As such, it should
@@ -100,10 +103,11 @@ int cmp_jobs(const void* a, const void* b) {
 }
 
 main(int argc, char** argv) {
-	cn_bool no_stats = CN_FALSE,
-	        simulate = CN_FALSE,
-	        printimg = CN_FALSE,
-	        debugmod = CN_FALSE;
+	cn_bool no_stats   = CN_FALSE,
+	        simulate   = CN_FALSE,
+	        printimg   = CN_FALSE,
+	        debugmod   = CN_FALSE,
+			preemptive = CN_TRUE;
 	char*   imgpath;
 
 	//Initialise colours for grid
@@ -144,7 +148,7 @@ main(int argc, char** argv) {
 					}
 					imgpath = argv[++arg_index];
 					break;
-				case 'l':
+				case 's':
 					simulate = CN_TRUE;
 					break;
 				case 'n':
@@ -152,6 +156,9 @@ main(int argc, char** argv) {
 					break;
 				case 'd':
 					debugmod = CN_TRUE;
+					break;
+				case 'x':
+					preemptive = CN_FALSE;
 					break;
 			}
 		}
@@ -199,6 +206,7 @@ main(int argc, char** argv) {
 			total_turnaround = 0,
 			div_factor       = cn_vec_size(jobs), //To divide total wait and turnaround times
 	        pn               = cn_vec_size(jobs); //Number of jobs loaded in
+
 	while (CN_TRUE) {
 		cn_uint i = 0;
 		SJF_PROCESS* process;
@@ -220,7 +228,7 @@ main(int argc, char** argv) {
 
 		SJF_PROCESS* vlist;
 		if (cn_vec_size(process_queue) > 0) {
-			if (time == 0) {
+			if (time == 0 || preemptive == CN_TRUE) {
 				vlist = cn_vec_data(process_queue);
 				qsort(vlist, cn_vec_size(process_queue), sizeof(SJF_PROCESS), cmp_jobs);
 			} else {
@@ -236,7 +244,7 @@ main(int argc, char** argv) {
 		if (!cn_vec_empty(process_queue)) {
 			//Get top element
 			SJF_PROCESS* cur_proc = cn_vec_at(process_queue, 0),
-						* new_proc;
+			           * new_proc;
 			if (simulate == CN_TRUE)
 				printf("[%d] Process Job \"%d\" (%d remaining)\n", time, cur_proc->job_id, cur_proc->cpu_burst - 1);
 			cur_proc->cpu_burst--;
