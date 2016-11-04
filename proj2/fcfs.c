@@ -16,7 +16,7 @@
  *     -i FILE_PATH
  *          Writes a binary PPM (P6) file to "FILE_PATH" of the simulation
  *
- *     -l
+ *     -s
  *          Prints out the simulation for every second
  *
  *     -n
@@ -121,7 +121,7 @@ main(int argc, char** argv) {
 					}
 					imgpath = argv[++arg_index];
 					break;
-				case 'l':
+				case 's':
 					simulate = CN_TRUE;
 					break;
 				case 'n':

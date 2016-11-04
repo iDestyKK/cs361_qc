@@ -31,7 +31,7 @@
  *     -q QUANTUM
  *          Specifies the time quantum
  *
- *     -l
+ *     -s
  *          Prints out the simulation for every second.
  *
  *     -n
@@ -148,7 +148,7 @@ main(int argc, char** argv) {
 					}
 					QUANTUM = atoi(argv[++arg_index]);
 					break;
-				case 'l':
+				case 's':
 					simulate = CN_TRUE;
 					break;
 				case 'n':
