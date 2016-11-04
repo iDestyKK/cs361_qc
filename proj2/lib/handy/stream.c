@@ -43,7 +43,7 @@ void cn_fstream_next(CN_FSTREAM stream) {
 		if (data == '\0' || data == -1)
 			break;
 	}
-	while (data == ' ' || data == '\n' || data == '\t');
+	while (data == ' ' || data == '\r' || data == '\n' || data == '\t');
 
 	//If we didn't get a null character, start reading in characters.
 	if (data != '\0' && data != -1) {
@@ -54,7 +54,7 @@ void cn_fstream_next(CN_FSTREAM stream) {
 
 			data = fgetc(stream->strloc);
 		}
-		while (data != ' ' && data != '\0' && data != '\n' && data != '\t' && data != -1);
+		while (data != ' ' && data != '\0' && data != '\r' && data != '\n' && data != '\t' && data != -1);
 	}
 
 	if (i == 0) {

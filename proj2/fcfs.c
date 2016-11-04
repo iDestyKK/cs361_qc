@@ -26,7 +26,9 @@
 #include "lib/handy/types.h"
 #include "lib/handy/file.h"
 #include "lib/handy/stream.h"
-#include "lib/cn_vec/cn_vec.h"
+
+//CNDS (Clara Nguyen's Data Structures)
+#include "lib/handy/cnds/cn_vec.h"
 
 typedef struct fcfs_process {
 	    //Basic process elements
