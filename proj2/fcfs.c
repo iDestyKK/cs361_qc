@@ -320,6 +320,6 @@ main(int argc, char** argv) {
 
 	///Print out
 	printf("Average Wait Time      : %lg s\n"    , avg_wait);
-	printf("Throughput (p/min)     : %lg p/min\n", 60 / (total_time / pn));
+	printf("Throughput (p/min)     : %lg p/min\n", 60. / ((double)total_time / pn));
 	printf("Average Turnaround Time: %lg s\n"    , avg_turnaround);
 }

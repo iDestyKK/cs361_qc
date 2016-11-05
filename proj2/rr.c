@@ -381,7 +381,7 @@ main(int argc, char** argv) {
 	//At this point, all processes have been done. Calculate stats and print
 	if (no_stats == CN_FALSE) {
 		printf("Average Wait Time      : %lg s\n"    , (double)total_wait / div_factor);
-		printf("Throughput (p/min)     : %lg p/min\n", 60. / (time / div_factor));
+		printf("Throughput (p/min)     : %lg p/min\n", 60. / ((double)time / div_factor));
 		printf("Average Turnaround Time: %lg s\n"    , (double)total_turnaround / div_factor);
 	}
 }
