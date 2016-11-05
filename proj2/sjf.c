@@ -1,5 +1,5 @@
 /*
- * COSC 361 - Project 2A: Shortest Job First (Shortest Job Next)
+ * COSC 361 - Project 2C: Shortest Job First (Shortest Job Next)
  *
  * Description:
  *     Simulates the Shortest Job First scheduling algorithm.
