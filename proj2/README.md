@@ -12,8 +12,8 @@ All of these programs take similar arguments and do similar things. The only dif
 
 The following commands are exclusive to some programs.
 
-+ **-x** - SJF only. Forces non-preemptive process execution
-+ **-q QUANTUM** - RR only. Tells the program how long the time quantum is. Must be 1 or higher.
++ **-x** - Forces non-preemptive process execution (**SJF and Priority only**)
++ **-q QUANTUM** - Tells the program how long the time quantum is. Must be 1 or higher. (**RR only**)
 
 ##Part 1 - FCFS
 FCFS stands for "First Come, First Serve", and it literally does just that. If jobs are thrown in, they will be executed in the order that they come in. This is done with the CN\_LIST and CN\_VEC libraries. All jobs are stored into a CN\_VEC, which are then thrown into a CN\_LIST. The CN\_LIST acts like a queue, except values other than the top can be accessed. When a process comes in, it is thrown into the queue in a certain position depending on how many other processes were added in. For instance, if process 1 was running and process 2 and 3 come in at the same time, process 2 will be next in the queue, while process 3 will be after process 2. All processes will be popped from the front when their CPU burst is over.
@@ -67,6 +67,25 @@ Execute the same as above except without being preemptive
 Execute same as above, and show the process in "img.ppm"
 
 **Command** ./sjf "jobs.txt" -x -i img.ppm
+
+##Part 4 - Priority (SJN)
+This one implements preemptive priority based scheduling. Just like SJF, the **-x** command line argument will determine if the algorithm is preemptive or not. Without the argument, the algorithm is **preemptive**. Otherwise, it isn't. What does this mean? It acts like FCFS, but the moment a job comes in with a higher priority (lower number), control is instantly switched over to that job. If it isn't preemptive, it will be like FCFS but sorted by priority. If a process hasn't arrived yet, it will not be considered in the sort since it won't be in the queue.
+
+###Synopsis
+./priority job\_file \[-i IMG\_PATH\] \[-x\] \[-s\] \[-n\] \[-d\]
+
+###Example
+Execute and print out statistics for "jobs.txt" using priority (Preemptive)
+
+**Command** ./priority "jobs.txt"
+
+Execute the same as above except without being preemptive
+
+**Command** ./priority "jobs.txt" -x
+
+Execute same as above, and show the process in "img.ppm"
+
+**Command** ./priority "jobs.txt" -x -i img.ppm
 
 ##Output (For all programs)
 Printing out statistics only.

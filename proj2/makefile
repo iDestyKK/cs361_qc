@@ -20,4 +20,4 @@ priority:
 	$(CC) $(CFLACS) -o priority priority.c $(RI)
 
 clean:
-	rm fcfs rr sjf
+	rm fcfs rr sjf priority
