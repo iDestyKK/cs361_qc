@@ -68,7 +68,7 @@ Execute same as above, and show the process in "img.ppm"
 
 **Command** ./sjf "jobs.txt" -x -i img.ppm
 
-##Part 4 - Priority (SJN)
+##Part 4 - Priority
 This one implements preemptive priority based scheduling. Just like SJF, the **-x** command line argument will determine if the algorithm is preemptive or not. Without the argument, the algorithm is **preemptive**. Otherwise, it isn't. What does this mean? It acts like FCFS, but the moment a job comes in with a higher priority (lower number), control is instantly switched over to that job. If it isn't preemptive, it will be like FCFS but sorted by priority. If a process hasn't arrived yet, it will not be considered in the sort since it won't be in the queue.
 
 ###Synopsis
