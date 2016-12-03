@@ -1,5 +1,5 @@
 /*
- * COSC 361 - Project C: Disk Simulator
+ * COSC 361 - Project 3: Disk Simulator
  *
  * Descritpion:
  *     Simulates usage of a disk, or a memory drive which stores files and
