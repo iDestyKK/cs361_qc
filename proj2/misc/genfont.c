@@ -76,7 +76,7 @@ void export_font(char* fname, CN_VEC vec_chars) {
 	cn_uint num = cn_vec_size(vec_chars);
 	fwrite(&WIDTH , sizeof(cn_uint), 1, fp);
 	fwrite(&HEIGHT, sizeof(cn_uint), 1, fp);
-	fwrite(&num  , sizeof(cn_uint), 1, fp);
+	fwrite(&num   , sizeof(cn_uint), 1, fp);
 
 	//Write each character
 	cn_uint i = 0,
