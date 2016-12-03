@@ -37,6 +37,9 @@
 #define HDD_SIZE  10485760 //10 MB
 #define SECT_SIZE 512      //.5 KB
 
+//Program Variables
+#define DEBUG 0
+
 //Sector Struct
 typedef struct sector {
 	struct sector* prev,      //Pointer to previous sector (If allocated)
@@ -88,9 +91,25 @@ void allocate(int filehandle, int filesize) {
 	cn_vec_push_back(sim.files, &tmp);
 	file = (VFILE *) cn_vec_at(sim.files, cn_vec_size(sim.files) - 1);
 	
+	file->start = &data[i];
+	file->size  = filesize;
+	file->id    = filehandle;
 	SECTOR* prev = NULL;
 	cn_uint fsz = filesize;
 	while (fsz != 0) {
+		//Hachish for-loop
+		for (; data[i].allocated == CN_TRUE; i++);
+		if (DEBUG)
+			printf("Allocated Sector #%d for file %d\n", i, file->id);
+		
+		data[i].prev      = prev;
+		if (prev != NULL) {
+			prev->next    = &data[i];
+		}
+		data[i].allocated = CN_TRUE;
+		data[i].file      = file;
+		prev              = &data[i];
+		sim.allocated++;
 		
 		if (fsz < SECT_SIZE)
 			fsz = 0;
@@ -100,13 +119,131 @@ void allocate(int filehandle, int filesize) {
 }
 
 void modify(int filehandle, int newfilesize) {
-	//printf("%d, %d\n", filehandle, newfilesize);
+	//Find the entry in the file table
+	cn_uint i = 0;
+	SECTOR* data = cn_vec_data(sim.sectors);
+	VFILE* fptr;
+	for (; i < cn_vec_size(sim.files); i++) {
+		fptr = (VFILE *) cn_vec_at(sim.files, i);
+		if (fptr->id == filehandle)
+			break;
+	}
+	if (i >= cn_vec_size(sim.files))
+		return; //Invalid file ID
 	
+	//Don't bother with the rest if the filesizes are the same
+	if (newfilesize == fptr->size)
+		return;
+
+	//Now go and find the last sector for that file.
+	SECTOR* sptr = fptr->start;
+	while (sptr->next != NULL)
+		sptr = sptr->next;
+	
+	//Next action depends on whether the new size is larger or smaller
+	if (newfilesize > fptr->size) {
+		//New size is larger
+		cn_uint szmod = newfilesize - (((fptr->size / SECT_SIZE) * SECT_SIZE) + ((fptr->size % SECT_SIZE > 0) ? SECT_SIZE : 0));
+		if (DEBUG)
+			printf("Sector Difference: %d\n", szmod);
+		fptr->size = newfilesize;
+		if (szmod == 0)
+			//If the current file could fit into the sectors from earlier, kill it
+			return;
+		
+		i = 0;
+		SECTOR* prev = sptr;
+		while (szmod != 0) {
+			//Append sectors.
+			for (; data[i].allocated == CN_TRUE; i++);
+			if (DEBUG)
+				printf("Allocated Sector #%d for file %d\n", i, fptr->id);
+			prev->next        = &data[i];
+			data[i].prev      = prev;
+			data[i].allocated = CN_TRUE;
+			data[i].file      = fptr;
+			prev              = &data[i];
+			sim.allocated++;
+			
+			if (szmod < SECT_SIZE)
+				szmod = 0;
+			else
+				szmod -= SECT_SIZE;
+		}
+	}
+	else {
+		//New size is smaller
+		cn_uint szmod = ((newfilesize / SECT_SIZE) * SECT_SIZE) + ((newfilesize % SECT_SIZE > 0) ? SECT_SIZE : 0),
+		        fmod  = ((fptr->size  / SECT_SIZE) * SECT_SIZE) + ((fptr->size  % SECT_SIZE > 0) ? SECT_SIZE : 0);
+		//Go to the end of the file and start deleting from the back.
+		SECTOR* prev = sptr;
+		cn_uint sect_num = 1;
+		while (prev->next != NULL) {
+			sect_num++;
+			prev = prev->next;
+		}
+
+		while (fmod != szmod) {
+			if (DEBUG)
+				printf("Unallocated sector #%d\n", ((char *)prev - (char *)data) / sizeof(SECTOR));
+			prev                  = prev->prev; //Yes
+			prev->next->allocated = CN_FALSE;
+			prev->next->prev      = NULL;
+			prev->next->next      = NULL;
+			prev->next->file      = NULL;
+			prev->next            = NULL;
+			fmod -= SECT_SIZE;
+			sim.allocated--;
+		}
+		fptr->size = newfilesize;
+	}
 }
 
 void release(int filehandle) {
-	//printf("%d\n", filehandle);
+	if (DEBUG)
+		printf("%d\n", filehandle);
+	//Find the entry in the file table
+	cn_uint i = 0, ip;
+	SECTOR* data = cn_vec_data(sim.sectors);
+	VFILE* fptr;
+	for (; i < cn_vec_size(sim.files); i++) {
+		fptr = (VFILE *) cn_vec_at(sim.files, i);
+		if (fptr->id == filehandle)
+			break;
+	}
+	ip = i;
+	if (i >= cn_vec_size(sim.files))
+		return; //Invalid file ID
 	
+	//Now go and find the last sector for that file.
+	SECTOR* sptr = fptr->start, *next;
+	while (sptr != NULL) {
+		if (DEBUG)
+			printf("Unallocated sector #%d\n", ((char *)sptr - (char *)data) / sizeof(SECTOR));
+		next = sptr->next;
+
+		//Now remove the previous one
+		sptr->next      = NULL;
+		sptr->prev      = NULL;
+		sptr->allocated = CN_FALSE;
+		sptr->file      = NULL;
+		sim.allocated--;
+
+		sptr = next;
+	}
+	cn_vec_delete(sim.files, ip);
+}
+
+void print_allocation_map() {
+	cn_uint i = 0;
+	SECTOR* data = cn_vec_data(sim.sectors);
+	for (; i < cn_vec_size(sim.sectors); i++) {
+		if (data[i].file != NULL) {
+			printf("%d - %d\n", i, data[i].file->id);
+		}
+		else
+			printf("%d - NULL\n", i);
+	}
 }
 
 main(int argc, char** argv) {
@@ -148,7 +285,8 @@ main(int argc, char** argv) {
 		int fileid, filesize;
 
 		//This command is guaranteed to be a char (A, R, or M).
-		printf("%c\n", cn_fstream_get(fs)[0]);
+		if (DEBUG)
+			printf("%c\n", cn_fstream_get(fs)[0]);
 		switch (cn_fstream_get(fs)[0]) {
 			case 'A':
 				//Allocate
@@ -175,4 +313,7 @@ main(int argc, char** argv) {
 	}
 
 	fclose(fp);
+
+	//print_allocation_map();
+	printf("Allocated Sectors     : %d\nTotal Sectors         : %d\nDisk Utilisation Ratio: %g%\nNumber of Files       : %d\nFree Space            : %g MB (%d bytes)\n", sim.allocated, sim.total, (double)sim.allocated / sim.total, cn_vec_size(sim.files), ((double)(sim.total - sim.allocated) * SECT_SIZE) / 1048576, (sim.total - sim.allocated) * SECT_SIZE);
 }
