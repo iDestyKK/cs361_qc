@@ -1,5 +1,5 @@
-#PPM_Edit
-PPM_Edit is a multi-language library which allows users to open PPM, PGM, and PBM files and modify pixel values easily. These formats are rudimentary and store either ASCII or Binary data depending on their magic number.
+# PPM\_Edit
+PPM\_Edit is a multi-language library which allows users to open PPM, PGM, and PBM files and modify pixel values easily. These formats are rudimentary and store either ASCII or Binary data depending on their magic number.
 
 The Magic Number determines the format. Here is the list:
 ```

@@ -1,11 +1,11 @@
-#Programming Assignment 3
+# Programming Assignment 3
 
 Programming Assignment 3 consists of a single part, unlike the last two. This program does what the name implies, simulates a disk (Well, a Hard Drive). The simulation was written in C and compiles under the GNU89 Standard.
 
-##Program Information
+## Program Information
 The program only takes one argument, and that is a text file that is used to simulate files being either added, modified, or removed from the file system. It should be noted that files are not actually created, only simulated. The virtual disk has 10 MB (1024 * 1024 * 10 bytes) with contain sectors of size 512 bytes. As a result, there are 20480 total sectors to work with.
 
-###Compilation
+### Compilation
 This application comes with a makefile which can be used to either compile or remove the program.
 
 To compile disksim:
@@ -18,16 +18,16 @@ To remove disksim:
 make clean
 ```
 
-###How it works
+### How it works
 Please read the proj3.pdf for full documentation on how it works.
 
-###Notes
+### Notes
 The program defines the disk attributes in "\#define" tags. You can change this to make more space available or to make sectors larger. Also, you can enable DEBUG mode by modifying the defines as. I decided not to include these as command line arguments since they are not meant to be changed by the end-user.
 
-###Synopsis
+### Synopsis
 ./disksim file
 
-###Output
+### Output
 
 **Command** ./disksim file\_operations.txt
 

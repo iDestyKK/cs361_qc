@@ -1,23 +1,23 @@
-#Programming Assignment 1
+# Programming Assignment 1
 
 Programming Assignment 1 consists of three parts. Sudoku Puzzle Validator, Dining Philosophers, and a text converter/parser.
 These assignments are to practise the behaviours of programming with pthreads in C.
 
-##Part 1 - Sudoku Validator
+## Part 1 - Sudoku Validator
 Runs 3 threads (as opposed to the suggested 11), one for rows, one for columns, and one for a 3x3 grid. Accepts a ".su" file, which contains width, height, and then sudoku puzzle data separated out with spaces or new lines. The algorithm uses the first 9 bits of shorts (16-bit integers) and sets bits to "1" for each number that appears in each row, column, or grid respectively. If each function returns 0x1FF (511) every time, the sudoku puzzle is guaranteed to be correct.
 
 This program utilises the CN\_Grids Data Structure Library (written by Clara) to aid in storing information about the sudoku puzzle.
 
-###Synopsis
+### Synopsis
 ./validator file
 
-###Example
+### Example
 **Command** ./validator 1\_sudoku\_validator/puzzle1.su
 ```
 1
 ```
 
-##Part 2 - Dining Philosophers
+## Part 2 - Dining Philosophers
 The classic Computer Science problem featuring philosophers sitting at a table with an unlimited supply of noodles (or spaghetti?). The twist in the problem comes with the number of chopsticks being equal to the number of philosophers at the table (e.g. 5 philosophers means 5 chopsticks are present). Aside from the lack of washing these chopsticks between use, a philosopher can only eat when they have two chopsticks. The goal of this problem is to demonstrate avoiding deadlocks. For instance, if all of the philosophers tried picking up their right chopstick, they would never be able to pick up their left one, resulting in a deadlock. This program solves the problem by adding the following rules/conditions to it:
 
 + Each philosopher has a thread of its own. All of these threads share access to a "manager" struct and can only modify its data if it locks a mutex.
@@ -29,10 +29,10 @@ The classic Computer Science problem featuring philosophers sitting at a table w
 
 **Note**: There are two .c files. "philosophers.c" is the assignment, and the makefile will target this one to compile. "philosophers\_orig.c" is an alternative version which features command line arguments where you can specify the number of philosophers, speed of eating/thinking, etc.
 
-###Synopsis
+### Synopsis
 ./philosophers
 
-###Example
+### Example
 **Command**: ./philosophers
 ```
 Philosopher 0 has joined.
@@ -48,7 +48,7 @@ Philosopher 2 is eating for 2.46172 seconds.
 ...
 ```
 
-##Part 3 - Text Parser
+## Part 3 - Text Parser
 Runs 4 threads. Each thread runs a different task in this program. Each thread has its own CN\_Queue (except for the fourth), which stores pointers to char\*'s. The program, as a whole, will read a text file of the user's choice, and convert all spaces to asterisks (\*), and then convert all lower case letters to upper case letters, then print them out to either stdout or a file.
 
 Each thread works as follows:
@@ -61,10 +61,10 @@ Each thread works as follows:
 
 **Thread 4** - Takes strings from the queue created in Thread 3, and outputs them to either stdout or a file depending on what a user specified when running the program.
 
-###Synopsis
+### Synopsis
 ./parser file [output\_file]
 
-###Example
+### Example
 **Command**: ./parser 3\_text\_parser/txt1
 
 **Input**
